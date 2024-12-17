@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tree Result</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Tree Result</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h1>Generated Binary Search Tree</h1>
-<pre th:text="${treeJson}"></pre>
-<a href="/input-numbers">Enter More Numbers</a>
+<header>Binary Tree Application</header>
+<h1>Tree JSON Representation</h1>
+<div style="text-align: center; margin: 2rem;">
+    <pre style="background-color: #f4f4f4; padding: 1rem; display: inline-block; border-radius: 5px;">${treeJson}</pre>
+</div>
+<a href="/enter-numbers" style="display: inline-block; margin-top: 20px; text-decoration: none; background-color: #007BFF; color: white; padding: 10px 20px; border-radius: 5px;">Back to Input</a>
+<a href="/previous-trees">View Previous Trees</a>
 </body>
 </html>
+

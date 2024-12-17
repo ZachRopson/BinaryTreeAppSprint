@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.List;
 
@@ -31,25 +32,35 @@ public class BinaryTreeTests {
 		bst.insert(15);
 
 		String jsonOutput = bst.toJson();
-		assertTrue(jsonOutput.contains("10"));
-		assertTrue(jsonOutput.contains("5"));
-		assertTrue(jsonOutput.contains("15"));
+		System.out.println("Generated JSON: " + jsonOutput); // Debugging output
+		assertTrue(jsonOutput.contains("\"value\":10"), "Root node missing");
+		assertTrue(jsonOutput.contains("\"left\":{\"value\":5"), "Left child missing");
+		assertTrue(jsonOutput.contains("\"right\":{\"value\":15"), "Right child missing");
 	}
 
 	// 2. Test Process Route (POST /process-tree)
 	@Test
 	public void testProcessTreeEndpoint() {
 		String inputNumbers = "10,5,15";
-		ResponseEntity<String> response = restTemplate.postForEntity(
-				"/process-tree?numbers=" + inputNumbers,
-				null,
-				String.class
-		);
 
-		assertEquals(200, response.getStatusCodeValue());
-		assertTrue(response.getBody().contains("10"));
-		assertTrue(response.getBody().contains("5"));
-		assertTrue(response.getBody().contains("15"));
+		// Prepare form data
+		LinkedMultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+		formData.add("numbers", inputNumbers);
+
+		// Send POST request
+		ResponseEntity<String> response = restTemplate.postForEntity("/process-tree", formData, String.class);
+
+		// Debugging output
+		System.out.println("Response Body: " + response.getBody());
+
+		// Verify response status and content
+		assertEquals(200, response.getStatusCodeValue(), "Response status is not 200 OK");
+		String responseBody = response.getBody();
+
+		// Validate the JSON structure
+		assertTrue(responseBody.contains("\"value\":10"), "Root node missing");
+		assertTrue(responseBody.contains("\"left\":{\"value\":5"), "Left child missing");
+		assertTrue(responseBody.contains("\"right\":{\"value\":15"), "Right child missing");
 	}
 
 	// 3. Test Input Storage in Database
@@ -62,14 +73,15 @@ public class BinaryTreeTests {
 		treeRepository.save(data);
 
 		List<TreeData> results = treeRepository.findAll();
-		assertFalse(results.isEmpty());
-		assertEquals("10,5,15", results.get(0).getInputNumbers());
+		assertFalse(results.isEmpty(), "Database is empty");
+		assertEquals("10,5,15", results.get(0).getInputNumbers(), "Stored input numbers mismatch");
 	}
 
 	// 4. Test Previous Trees Endpoint (GET /previous-trees)
 	@Test
 	public void testPreviousTreesEndpoint() {
 		ResponseEntity<String> response = restTemplate.getForEntity("/previous-trees", String.class);
-		assertEquals(200, response.getStatusCodeValue());
+		assertEquals(200, response.getStatusCodeValue(), "Response status is not 200 OK");
 	}
 }
+
