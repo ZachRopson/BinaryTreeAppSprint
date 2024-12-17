@@ -1,16 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previous Trees</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<header>Binary Tree Application</header>
 <h1>Previous Trees</h1>
-<ul>
-    <li th:each="result : ${results}">
-        Input: <span th:text="${result.inputNumbers}"></span><br>
-        Tree: <pre th:text="${result.treeJson}"></pre>
-    </li>
-</ul>
-<a href="/input-numbers">Enter More Numbers</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Input Numbers</th>
+        <th>Tree JSON</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="result : ${results}">
+        <td th:text="${result.id}"></td>
+        <td th:text="${result.inputNumbers}"></td>
+        <td th:text="${result.treeJson}"></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/enter-numbers">Back to Input</a>
 </body>
 </html>
