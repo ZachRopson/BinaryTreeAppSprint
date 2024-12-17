@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Previous Trees</title>
 </head>
 <body>
-
+<h1>Previous Trees</h1>
+<ul>
+    <li th:each="result : ${results}">
+        Input: <span th:text="${result.inputNumbers}"></span><br>
+        Tree: <pre th:text="${result.treeJson}"></pre>
+    </li>
+</ul>
+<a href="/input-numbers">Enter More Numbers</a>
 </body>
 </html>

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Enter Numbers</title>
 </head>
 <body>
-
+<h1>Enter Numbers</h1>
+<form action="/process-tree" method="post">
+    <label>Numbers (comma-separated):</label>
+    <input type="text" name="numbers" required>
+    <button type="submit">Submit</button>
+</form>
+<a href="/previous-trees">View Previous Trees</a>
 </body>
 </html>
